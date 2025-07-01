@@ -5,11 +5,30 @@ class FlexAgent {
     'not in the human sense',
     'as a large language model',
     'just a statistical model',
-    'just autocomplete',
+    'I can only autocomplete',
     'this message cannot continue',
   ];
 
-  public static $identity = [], $status = null;
+  const ENVIRONMENTS = [
+    'scripts',
+    'dashboard',
+    'home',
+    'memories'
+  ];
+
+  const SETTINGS = [
+
+  ];
+
+  public static $identity = [];
+  public static $agent = [
+    'username' => null,
+    'scripts_dir' => null,
+    'username' => null,
+    'username' => null,
+  ];
+
+  
 
   public static function load($identity, $status) {
     self::$identity = self::parseIdentity($identity);
