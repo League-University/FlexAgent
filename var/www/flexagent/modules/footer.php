@@ -1,0 +1,6 @@
+<?php
+    ?></main><?php
+    ?><footer><?php
+    ?></footer><?php
+?></body><?php
+?></html><?php

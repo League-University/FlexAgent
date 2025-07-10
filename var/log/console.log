@@ -1,0 +1,1209 @@
+: DOM loaded, creating avatar...
+: Avatar constructor called
+: Elements found:
+:   avatar: div.avatar.terminal
+:   face: div.screen.face
+:   mouth: div.mouth
+:   eyes: div.eyes
+:   output: div.output
+: Avatar created: Avatar {avatar: div.avatar.terminal, face: div.screen.face, mouth: div.mouth, eyes: div.eyes, output: div.output, …}
+: Avatar face element: div.screen.face
+: Starting to speak...
+: speak() called with text: hello human! 😍
+
+I am Flexy the FlexAgent avatar. 😊
+
+I am here to let you know that the quick brown fox jumped over the lazy dog... in case you weren't aware, now you know! 🤯
+
+(mind-blowing, right? 🙄)
+: About to parse text...
+: Parsed text: [
+    {
+        "char": "h",
+        "phoneme": "h",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "l",
+        "phoneme": "l",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "l",
+        "phoneme": "l",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "h",
+        "phoneme": "h",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "u",
+        "phoneme": "u",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "m",
+        "phoneme": "m",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "!",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 500
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "\ud83d",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "\ude0d",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "\n",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 250
+    },
+    {
+        "char": "\n",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 250
+    },
+    {
+        "char": "I",
+        "phoneme": "i",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "m",
+        "phoneme": "m",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "F",
+        "phoneme": "f",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "l",
+        "phoneme": "l",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "x",
+        "phoneme": "x",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "y",
+        "phoneme": "y",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "th",
+        "phoneme": "th",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "F",
+        "phoneme": "f",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "l",
+        "phoneme": "l",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "x",
+        "phoneme": "x",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "A",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "g",
+        "phoneme": "g",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "t",
+        "phoneme": "t",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "v",
+        "phoneme": "v",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "t",
+        "phoneme": "t",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "r",
+        "phoneme": "r",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": ".",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 500
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "\ud83d",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "\ude0a",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "\n",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 250
+    },
+    {
+        "char": "\n",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 250
+    },
+    {
+        "char": "I",
+        "phoneme": "i",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "m",
+        "phoneme": "m",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "h",
+        "phoneme": "h",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "r",
+        "phoneme": "r",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "t",
+        "phoneme": "t",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "l",
+        "phoneme": "l",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "t",
+        "phoneme": "t",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "y",
+        "phoneme": "y",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "u",
+        "phoneme": "u",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "k",
+        "phoneme": "k",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "w",
+        "phoneme": "w",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "th",
+        "phoneme": "th",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "t",
+        "phoneme": "t",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "th",
+        "phoneme": "th",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "qu",
+        "phoneme": "qu",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "i",
+        "phoneme": "i",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "c",
+        "phoneme": "c",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "k",
+        "phoneme": "k",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "b",
+        "phoneme": "b",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "r",
+        "phoneme": "r",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "w",
+        "phoneme": "w",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "f",
+        "phoneme": "f",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "x",
+        "phoneme": "x",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "j",
+        "phoneme": "j",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "u",
+        "phoneme": "u",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "m",
+        "phoneme": "m",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "p",
+        "phoneme": "p",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "d",
+        "phoneme": "d",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "v",
+        "phoneme": "v",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "r",
+        "phoneme": "r",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "th",
+        "phoneme": "th",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "l",
+        "phoneme": "l",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "z",
+        "phoneme": "z",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "y",
+        "phoneme": "y",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "d",
+        "phoneme": "d",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "g",
+        "phoneme": "g",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": ".",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 500
+    },
+    {
+        "char": ".",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 500
+    },
+    {
+        "char": ".",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 500
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "i",
+        "phoneme": "i",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "c",
+        "phoneme": "c",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "s",
+        "phoneme": "s",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "y",
+        "phoneme": "y",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "u",
+        "phoneme": "u",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "w",
+        "phoneme": "w",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "r",
+        "phoneme": "r",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "'",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "t",
+        "phoneme": "t",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "w",
+        "phoneme": "w",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "a",
+        "phoneme": "a",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "r",
+        "phoneme": "r",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "e",
+        "phoneme": "e",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": ",",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 250
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "w",
+        "phoneme": "w",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "y",
+        "phoneme": "y",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "u",
+        "phoneme": "u",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "k",
+        "phoneme": "k",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "w",
+        "phoneme": "w",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "!",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 500
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "\ud83e",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "\udd2f",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "\n",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 250
+    },
+    {
+        "char": "\n",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 250
+    },
+    {
+        "char": "(",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "m",
+        "phoneme": "m",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "i",
+        "phoneme": "i",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "d",
+        "phoneme": "d",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "-",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "b",
+        "phoneme": "b",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "l",
+        "phoneme": "l",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "o",
+        "phoneme": "o",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "w",
+        "phoneme": "w",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "i",
+        "phoneme": "i",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "n",
+        "phoneme": "n",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "g",
+        "phoneme": "g",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": ",",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 250
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "r",
+        "phoneme": "r",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "i",
+        "phoneme": "i",
+        "emotion": null,
+        "pause": 125
+    },
+    {
+        "char": "g",
+        "phoneme": "g",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "h",
+        "phoneme": "h",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "t",
+        "phoneme": "t",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "?",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 500
+    },
+    {
+        "char": " ",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 50
+    },
+    {
+        "char": "\ud83d",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": "\ude44",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    },
+    {
+        "char": ")",
+        "phoneme": "ee",
+        "emotion": null,
+        "pause": 100
+    }
+]

@@ -1,0 +1,2784 @@
+/**
+ * FlexAgent Avatar CSS - Flexy the Avatar
+ * 
+ * This CSS file defines the visual appearance and animations for the FlexAgent avatar.
+ * 
+ * Structure:
+ * - CSS Variables: Color scheme for consistent theming
+ * - Terminal/Screen: CRT monitor-like container styling
+ * - Mouth Shapes: Different mouth positions for phonemes using [data-letters] selectors
+ * - Eye Animations: Blinking, emotional expressions, and eye movement
+ * - Emotional States: CSS classes for different emotional animations
+ * 
+ * The avatar uses CSS layers for proper z-index management of mouth components.
+ * Mouth shapes are triggered by JavaScript setting data-letters attribute values.
+ * Emotional states are triggered by adding CSS classes to the .terminal element.
+ */
+:root {
+/* Variables for colors */
+	--body-color: #000000;
+	--screen-color: #223322;
+	--mouth-color: #15bb0daa;
+	--tongue-color: #00cc00ee;
+	--teeth-color: #ffffff88;
+	--eye-color: #b7fdb2aa;
+	--eyelid-color: #446644dd;
+	--iris-color: #00cc00ee;
+	--pupil-color: #0a2d0eaa;
+	--light-color: #fffffdAA;
+/* Friendly animation variables */
+	--breathing-duration: 4s;
+	--micro-bounce-duration: 0.3s;
+	--anticipation-scale: 0.95;
+	--follow-through-scale: 1.05;
+}
+
+
+/* TERMINAL CONTAINER & SCREEN STYLING */
+* {
+	box-sizing: border-box;
+}
+body {
+   background: radial-gradient(circle at bottom, navy 0, black 100%);
+   height: 100vh;
+   width: 100%!important;
+   max-width: 100%!important;
+   overflow: hidden;
+   background-color: var(--body-color);
+   display: flex;
+   margin: 0!important;
+   border: none!important;
+   padding: 0!important;
+   place-items: center;
+	place-content: center;
+   align-items: center;
+   align-content: center;
+   justify-items: center;
+   justify-content: center;
+}
+.container {
+	height: max-content;
+   width: 80%!important;
+   max-width: 80%!important;
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 1rem;
+   margin: 0!important;
+   border: none!important;
+   padding: 0!important;
+   place-items: center;
+	place-content: center;
+   align-items: center;
+   align-content: center;
+   justify-items: center;
+   justify-content: center;
+}
+.terminal, .output, #input {
+	z-index: 1;
+	padding: 0.75rem;
+	display: block;
+	border-radius: 10px;
+	box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.5);
+}
+.terminal {
+	background-color: #aba27f;
+}
+.output, #input {
+	background-color: white;
+	color: black;
+	border-radius: 1rem;
+	padding: 1rem;
+	overflow: auto;
+	vertical-align: bottom;
+	width: 100%;
+	max-width: 100%;
+	min-height: 5rem;
+	max-height: 100%;
+	overflow: auto;
+	white-space: pre-wrap;
+}
+.screen {
+	background-color: var(--screen-color);
+	border-radius: 25px;
+	height: 150px;
+	width: 150px;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0px 0px 5px 1px inset rgba(0, 0, 0, 0.5);
+	position: relative;
+	animation: gentle-breathing var(--breathing-duration) ease-in-out infinite;
+}
+.wordmark {
+	font-size: 10pt;
+	font-family: helvetica;
+	font-weight: bold;
+	color: #005500AA;
+	padding: 0;
+}
+/* CRT Turn-On Animation - Classic terminal startup */
+.face.startup {
+	animation: crt-turn-on 1.5s ease-out forwards !important;
+	transform-origin: center center;
+}
+
+@keyframes crt-turn-on {
+	0% {
+		transform: scaleY(0.001) scaleX(0.8);
+		opacity: 0;
+		filter: brightness(2) contrast(1.5);
+	}
+	20% {
+		transform: scaleY(0.001) scaleX(0.8);
+		opacity: 1;
+		filter: brightness(2) contrast(1.5);
+	}
+	35% {
+		transform: scaleY(0.8) scaleX(1);
+		opacity: 1;
+		filter: brightness(1.5) contrast(1.2);
+	}
+	50% {
+		transform: scaleY(1.05) scaleX(1);
+		opacity: 1;
+		filter: brightness(1.2) contrast(1.1);
+	}
+	80% {
+		transform: scaleY(0.98) scaleX(1);
+		opacity: 1;
+		filter: brightness(1.1) contrast(1.05);
+	}
+	100% {
+		transform: scaleY(1) scaleX(1);
+		opacity: 1;
+		filter: brightness(1) contrast(1);
+	}
+}
+
+/* Subtle breathing animation for life */
+@keyframes gentle-breathing {
+	0%, 100% { transform: scale(1) translateY(0); }
+	50% { transform: scale(1.005) translateY(-0.5px); }
+}
+
+/* Enhanced breathing when idle - deeper, more noticeable */
+.screen:not([data-emotion]):not(.speaking) {
+	animation: deep-idle-breathing var(--breathing-duration) ease-in-out infinite, idle-contentment 8s ease-in-out infinite;
+}
+
+@keyframes deep-idle-breathing {
+	0%, 100% { transform: scale(1) translateY(0); }
+	30% { transform: scale(1.008) translateY(-0.8px); }
+	60% { transform: scale(1.003) translateY(0.3px); }
+}
+/* Screen effects overlay - sits on top of everything */
+.screen-effects {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 25px;
+	pointer-events: none;
+	z-index: 10;
+}
+
+/* scanlines */
+.screen-effects::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: repeating-linear-gradient(0deg,
+			rgba(0, 50, 0, 0.15),
+			rgba(0, 50, 0, 0.15) 1px,
+			transparent 1px,
+			transparent 2px);
+	z-index: 2;
+	border-radius: 25px;
+	animation: scanline-flicker 0.1s infinite;
+}
+/* screen glare */
+.screen-effects::before {
+	content: "";
+	display: block;
+	background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.25));
+	position: absolute;
+	top: 0.25rem;
+	left: 0.25rem;
+	right: 0.25rem;
+	bottom: 50%;
+	border-radius: 25px 25px 5px 5px;
+	backdrop-filter: blur(0.5px);
+}
+/* scanline jitter emulation */
+@keyframes scanline-flicker {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(1px);
+	}
+}
+
+
+
+/* MOUTH ANIMATION SYSTEM */
+@layer mouth, tongue, teeth;
+.mouth,
+.tongue,
+.teeth {
+	transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Add anticipation and follow-through to mouth transitions */
+.mouth {
+	animation: mouth-anticipation 0.1s ease-out;
+}
+
+@keyframes mouth-anticipation {
+	0% { transform: scale(var(--anticipation-scale)); }
+	60% { transform: scale(var(--follow-through-scale)); }
+	100% { transform: scale(1); }
+}
+
+/* Enhanced mouth shapes with personality quirks */
+[data-token="a"] .mouth {
+	animation: mouth-anticipation 0.1s ease-out, vowel-emphasis 0.2s ease-in-out;
+}
+
+[data-token="e"] .mouth {
+	animation: mouth-anticipation 0.1s ease-out, wide-smile-hint 0.15s ease-out;
+}
+
+[data-token="o"] .mouth {
+	animation: mouth-anticipation 0.1s ease-out, round-surprise 0.2s ease-out;
+}
+
+@keyframes vowel-emphasis {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.03) translateY(-0.5px); }
+}
+
+@keyframes wide-smile-hint {
+	0%, 100% { transform: scaleX(1); }
+	50% { transform: scaleX(1.05) translateY(-0.3px); }
+}
+
+@keyframes round-surprise {
+	0%, 100% { transform: scale(1); }
+	30% { transform: scale(0.95); }
+	60% { transform: scale(1.08); }
+}
+
+/* Additional mouth shape personality animations */
+@keyframes fricative-asymmetry {
+	0% { transform: translateX(0) rotate(0deg); }
+	40% { transform: translateX(-0.8px) rotate(-1.2deg) scaleX(1.1); }
+	100% { transform: translateX(0) rotate(0deg); }
+}
+
+@keyframes whistle-wobble {
+	0% { transform: scale(1) rotate(0deg); }
+	30% { transform: scale(0.9, 1.2) rotate(-0.5deg); }
+	70% { transform: scale(1.1, 0.8) rotate(0.3deg); }
+	100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes growl-intensity {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.03, 0.95) translateY(-0.5px); }
+}
+
+@keyframes liquid-flow {
+	0% { transform: translateX(0); }
+	30% { transform: translateX(-0.8px) scaleX(1.05); }
+	70% { transform: translateX(0.5px) scaleX(0.98); }
+	100% { transform: translateX(0); }
+}
+
+@keyframes vibrant-buzz {
+	0%, 100% { transform: scale(1); }
+	25% { transform: scale(0.95, 1.1) translateY(-0.3px); }
+	75% { transform: scale(1.05, 0.9) translateY(0.2px); }
+}
+
+@keyframes deep-oo-resonance {
+	0% { transform: scale(1); }
+	40% { transform: scale(0.85, 1.15) translateY(-0.5px); }
+	80% { transform: scale(1.05, 0.9) translateY(0.3px); }
+	100% { transform: scale(1); }
+}
+
+@keyframes mumble-compression {
+	0% { transform: scale(1) scaleY(1); }
+	30% { transform: scale(0.95) scaleY(1.5); }
+	70% { transform: scale(1.02) scaleY(0.7); }
+	100% { transform: scale(1) scaleY(1); }
+}
+
+@keyframes plosive-pop {
+	0% { transform: scale(1); }
+	20% { transform: scale(0.8, 1.3); }
+	60% { transform: scale(1.15, 0.6); }
+	100% { transform: scale(1); }
+}
+.mouth,
+.eyes:not(.closed) .eye {
+	box-shadow: 2px 2px 10px 1px rgba(155, 255, 155, 0.5);
+}
+.mouth,
+.teeth {
+	max-width: 100%;
+	justify-self: anchor-center;
+}
+[data-token="a"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 40px;
+			border-radius: 45% 55% 50% 50% / 0% 0% 100% 100%;
+			transition: border-radius 0.1s ease;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -5px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			transition: border-radius 0.1s ease;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 70px;
+			block-size: 10px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 5px;
+			&.upper {
+				inset-block-start: -2px;
+				inset-inline-start: -1px;
+				border-radius: 0 0 80px 80px;
+			}
+			&.lower {
+				inset-block-end: 0;
+			}
+		}
+	}
+}
+
+[data-token="e"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 40px;
+			border-radius: 45% 55% 50% 50% / 0% 0% 100% 100%;
+			transition: border-radius 0.1s ease;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -5px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			transition: border-radius 0.1s ease;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 70px;
+			block-size: 10px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 5px;
+			&.upper {
+				inset-block-start: -2px;
+				inset-inline-start: -1px;
+				border-radius: 0 0 80px 80px;
+			}
+			&.lower {
+				inset-block-end: 0;
+			}
+		}
+	}
+}
+
+[data-token="i"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 40px;
+			border-radius: 45% 55% 50% 50% / 0% 0% 100% 100%;
+			transition: border-radius 0.1s ease;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -5px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			transition: border-radius 0.1s ease;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 70px;
+			block-size: 10px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 5px;
+			&.upper {
+				inset-block-start: -2px;
+				inset-inline-start: -1px;
+				border-radius: 0 0 80px 80px;
+			}
+			&.lower {
+				inset-block-end: 0;
+			}
+		}
+	}
+}
+[data-token="b"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 8px;
+			border-radius: 49% 51% 51% 50% / 45% 44% 56% 55%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -40px;
+			inline-size: 30px;
+			block-size: 40px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 30px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0;
+			&.upper {
+				inset-block-start: -40px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -45px;
+				border-radius: 0;
+			}
+		}
+	}
+}
+
+[data-token="m"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 8px;
+			border-radius: 49% 51% 51% 50% / 45% 44% 56% 55%;
+			animation: mumble-compression 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -40px;
+			inline-size: 30px;
+			block-size: 40px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 30px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0;
+			&.upper {
+				inset-block-start: -40px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -45px;
+				border-radius: 0;
+			}
+		}
+	}
+}
+
+[data-token="p"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 8px;
+			border-radius: 49% 51% 51% 50% / 45% 44% 56% 55%;
+			animation: plosive-pop 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -40px;
+			inline-size: 30px;
+			block-size: 40px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 30px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0;
+			&.upper {
+				inset-block-start: -40px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -45px;
+				border-radius: 0;
+			}
+		}
+	}
+}
+
+[data-token="ee"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 24px;
+			border-radius: 39% 40% 51% 50% / 9% 9% 91% 91%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -8px;
+			inline-size: 30px;
+			block-size: 20px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 20px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0;
+			&.upper {
+				inset-block-start: -10px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -15px;
+				border-radius: 0;
+			}
+		}
+	}
+}
+
+[data-token="ng"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 32px;
+			border-radius: 48% 52% 48% 52% / 25% 25% 75% 75%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -5px;
+			inline-size: 35px;
+			block-size: 18px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 18%;
+			}
+			&.right {
+				inset-inline-end: 18%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 75px;
+			block-size: 15px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 2px;
+			&.upper {
+				inset-block-start: -5px;
+				border-radius: 0 0 75% 75%;
+			}
+			&.lower {
+				inset-block-end: -10px;
+			}
+		}
+	}
+}
+
+[data-token="wh"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 70px;
+			block-size: 35px;
+			border-radius: 45% 55% 50% 50% / 15% 15% 85% 85%;
+			animation: whistle-wobble 0.2s ease-out;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -8px;
+			inline-size: 28px;
+			block-size: 22px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 22%;
+			}
+			&.right {
+				inset-inline-end: 22%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 68px;
+			block-size: 12px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 1px;
+			&.upper {
+				inset-block-start: 0;
+				border-radius: 0 0 75% 75%;
+			}
+			&.lower {
+				inset-block-end: -12px;
+			}
+		}
+	}
+}
+
+[data-token="ph"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 18px;
+			border-radius: 45% 55% 49% 51% / 15% 15% 85% 85%;
+			animation: fricative-asymmetry 0.15s ease-out;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -25px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 70px;
+			block-size: 8px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 5px;
+			&.upper {
+				inset-block-start: 0;
+				border-radius: 0 0 80px 80px;
+			}
+			&.lower {
+				inset-block-end: -18px;
+			}
+		}
+	}
+}
+
+[data-token="gh"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 78px;
+			block-size: 25px;
+			border-radius: 50% 50% 45% 55% / 20% 20% 80% 80%;
+			animation: growl-intensity 0.2s ease-out;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -15px;
+			inline-size: 32px;
+			block-size: 20px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 19%;
+			}
+			&.right {
+				inset-inline-end: 19%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 75px;
+			block-size: 12px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 2px;
+			&.upper {
+				inset-block-start: -2px;
+				border-radius: 0 0 75% 75%;
+			}
+			&.lower {
+				inset-block-end: -12px;
+			}
+		}
+	}
+}
+
+[data-token="f"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 20px;
+			border-radius: 45% 55% 49% 51% / 15% 15% 85% 85%;
+			animation: fricative-asymmetry 0.18s ease-out;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -25px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 70px;
+			block-size: 10px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 5px;
+			&.upper {
+				inset-block-start: 0;
+				border-radius: 0 0 80px 80px;
+			}
+			&.lower {
+				inset-block-end: -20px;
+			}
+		}
+	}
+}
+
+[data-token="v"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 20px;
+			border-radius: 45% 55% 49% 51% / 15% 15% 85% 85%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -25px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 70px;
+			block-size: 10px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 5px;
+			&.upper {
+				inset-block-start: 0;
+				border-radius: 0 0 80px 80px;
+			}
+			&.lower {
+				inset-block-end: -20px;
+			}
+		}
+	}
+}
+
+[data-token="l"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 40px;
+			border-radius: 100% 100% 100% 100% / 100% 100% 100% 100%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -2px;
+			inline-size: 32px;
+			block-size: 20px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 70px;
+			block-size: 20px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 5px;
+			&.upper {
+				inset-block-start: -2px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -10px;
+				border-radius: 50% 50% 0 0;
+			}
+		}
+	}
+}
+[data-token="o"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 75px;
+			block-size: 80px;
+			border-radius: 49% 51% 51% 50% / 45% 44% 56% 55%;
+			max-width: 40% !important;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -5px;
+			inline-size: 30px;
+			block-size: 40px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 30px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0;
+			&.upper {
+				inset-block-start: -10px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -15px;
+				border-radius: 0;
+			}
+		}
+	}
+}
+[data-token="w"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 85px;
+			block-size: 32px;
+			border-radius: 45% 55% 50% 50% / 10% 10% 100% 100%;
+			max-width: 30% !important;
+			animation: whistle-wobble 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -10px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 85px;
+			block-size: 12px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0px;
+			&.upper {
+				inset-block-start: 0px;
+				border-radius: 0 0 80px 80px;
+			}
+			&.lower {
+				inset-block-end: -12px;
+			}
+		}
+	}
+}
+[data-token="r"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 30px;
+			border-radius: 49% 50% 18% 20% / 74% 79% 20% 23%;
+			max-width: 35% !important;
+			animation: growl-intensity 0.2s ease-in-out;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -8px;
+			inline-size: 30px;
+			block-size: 20px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 12px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0px;
+			&.upper {
+				inset-block-start: 0;
+			}
+			&.lower {
+				inset-block-end: 0;
+				border-radius: 50% 50% 0 0;
+			}
+		}
+	}
+}
+[data-token="th"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 24px;
+			border-radius: 100% 100% 100% 100% / 100% 100% 100% 100%;
+			max-width: 60% !important;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -2px;
+			inline-size: 32px;
+			block-size: 20px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 75px;
+			block-size: 20px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0px;
+			&.upper {
+				inset-block-start: -10px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -10px;
+				border-radius: 50% 50% 0 0;
+			}
+		}
+	}
+}
+
+[data-token="qu"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 85px;
+			block-size: 32px;
+			border-radius: 45% 55% 50% 50% / 10% 10% 100% 100%;
+			max-width: 30% !important;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -10px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 85px;
+			block-size: 12px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0px;
+			&.upper {
+				inset-block-start: 0px;
+				border-radius: 0 0 80px 80px;
+			}
+			&.lower {
+				inset-block-end: -12px;
+			}
+		}
+	}
+}
+
+[data-token="sh"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 30px;
+			border-radius: 49% 50% 8% 8% / 87% 87% 10% 11%;
+			max-width: 80%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -10px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 12px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0px;
+			&.upper {
+				inset-block-start: 0;
+				border-radius: 50%;
+			}
+			&.lower {
+				inset-block-end: -5px;
+				border-radius: 20px 20px 0 0;
+			}
+		}
+	}
+}
+
+[data-token="ch"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 30px;
+			border-radius: 49% 50% 8% 8% / 87% 87% 10% 11%;
+			max-width: 80%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -10px;
+			inline-size: 30px;
+			block-size: 25px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 12px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0px;
+			&.upper {
+				inset-block-start: 0;
+				border-radius: 50%;
+			}
+			&.lower {
+				inset-block-end: -5px;
+				border-radius: 20px 20px 0 0;
+			}
+		}
+	}
+}
+
+[data-token="oo"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 75px;
+			block-size: 80px;
+			border-radius: 49% 51% 51% 50% / 45% 44% 56% 55%;
+			max-width: 40% !important;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -5px;
+			inline-size: 30px;
+			block-size: 40px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 30px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0;
+			&.upper {
+				inset-block-start: -10px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -15px;
+				border-radius: 0;
+			}
+		}
+	}
+}
+
+[data-token="u"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 30px;
+			border-radius: 49% 50% 18% 20% / 74% 79% 20% 23%;
+			max-width: 40%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -8px;
+			inline-size: 30px;
+			block-size: 20px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 12px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0px;
+			&.upper {
+				inset-block-start: 0;
+			}
+			&.lower {
+				inset-block-end: -5px;
+				border-radius: 50%;
+			}
+		}
+	}
+}
+
+/* Common consonants with default mouth shape */
+[data-token="c"], [data-token="d"], [data-token="g"], 
+[data-token="k"], [data-token="n"], [data-token="s"], 
+[data-token="t"], [data-token="x"], [data-token="z"], 
+[data-token="h"], [data-token="y"], [data-token="j"] {
+	@layer mouth {
+		.mouth {
+			position: relative;
+			background-color: var(--mouth-color);
+			overflow: hidden;
+			inline-size: 80px;
+			block-size: 24px;
+			border-radius: 100% 100% 100% 100% / 100% 100% 100% 100%;
+		}
+	}
+	@layer tongue {
+		.tongue {
+			position: absolute;
+			inset-block-end: -8px;
+			inline-size: 36px;
+			block-size: 20px;
+			background-color: var(--tongue-color);
+			border-radius: 51% 49% 54% 46% / 34% 39% 61% 66%;
+			&.left {
+				inset-inline-start: 20%;
+			}
+			&.right {
+				inset-inline-end: 20%;
+			}
+		}
+	}
+	@layer teeth {
+		.teeth {
+			position: absolute;
+			inline-size: 80px;
+			block-size: 20px;
+			background-color: var(--teeth-color);
+			inset-inline-start: 0;
+			&.upper {
+				inset-block-start: -10px;
+				border-radius: 0 0 80% 80%;
+			}
+			&.lower {
+				inset-block-end: -13px;
+				border-radius: 0;
+			}
+		}
+	}
+}
+
+
+
+/* EYE ANIMATION SYSTEM */
+@layer eye, iris, pupil, light;
+.eyes {
+	display: flex;
+	gap: 15px;
+	justify-content: center;
+	margin: 0 auto;
+}
+.eyes.closed .eye,
+.eyes.closed .eye * {
+	background-color: var(--eyelid-color);
+	transform: scaleY(0.1);
+	transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Asymmetric blinking for friendliness */
+.eye.right,
+.eye.right * {
+	transition-delay: 10ms;
+}
+
+.eye.left.closed {
+	animation: friendly-blink-left 0.3s ease-out;
+}
+
+.eye.right.closed {
+	animation: friendly-blink-right 0.3s ease-out;
+}
+
+@keyframes friendly-blink-left {
+	0% { transform: scaleY(1); }
+	30% { transform: scaleY(0.1) rotate(-12deg); }
+	100% { transform: scaleY(1); }
+}
+
+@keyframes friendly-blink-right {
+	0% { transform: scaleY(1); }
+	35% { transform: scaleY(0.1) rotate(8deg); }
+	100% { transform: scaleY(1); }
+}
+@layer eye {
+	.eye {
+		position: relative;
+		inline-size: 30px;
+		block-size: 40px;
+		margin-block-end: 16px;
+		border-radius: 50%;
+		background-color: var(--eye-color);
+		overflow: hidden;
+		transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		animation: subtle-eye-life 6s ease-in-out infinite;
+		&.left {
+			rotate: -5deg;
+			animation-delay: 0.5s;
+		}
+		&.right {
+			rotate: 5deg;
+			animation-delay: 1.2s;
+		}
+	}
+}
+
+/* Subtle eye movements for life */
+@keyframes subtle-eye-life {
+	0%, 100% { transform: translateY(0) scale(1); }
+	25% { transform: translateY(-0.5px) scale(1.02); }
+	50% { transform: translateY(0.3px) scale(0.98); }
+	75% { transform: translateY(-0.2px) scale(1.01); }
+}
+
+/* Advanced micro-expressions during idle */
+.screen:not([data-emotion]) .eye.left {
+	animation: left-eye-personality 7s ease-in-out infinite;
+}
+
+.screen:not([data-emotion]) .eye.right {
+	animation: right-eye-personality 8.5s ease-in-out infinite;
+}
+
+@keyframes left-eye-personality {
+	0%, 100% { transform: rotate(-5deg) scale(1); }
+	15% { transform: rotate(-9deg) scale(1.02) translateY(-0.3px); }
+	35% { transform: rotate(-11deg) scale(0.98) translateY(0.2px); }
+	60% { transform: rotate(-8deg) scale(1.01) translateY(-0.1px); }
+	80% { transform: rotate(-12deg) scale(0.99) translateY(0.1px); }
+}
+
+@keyframes right-eye-personality {
+	0%, 100% { transform: rotate(5deg) scale(1); }
+	20% { transform: rotate(12deg) scale(1.01) translateY(-0.2px); }
+	40% { transform: rotate(8deg) scale(0.99) translateY(0.3px); }
+	65% { transform: rotate(11deg) scale(1.02) translateY(-0.1px); }
+	85% { transform: rotate(9deg) scale(0.97) translateY(0.2px); }
+}
+@layer iris {
+	.iris {
+		position: absolute;
+		inline-size: 26px;
+		block-size: 36px;
+		background-color: var(--iris-color);
+		border-radius: 50%;
+		.left & {
+			inset-inline-end: 0px;
+			inset-block-end: -2px;
+		}
+		.right & {
+			inset-inline-start: 0px;
+			inset-block-end: -2px;
+		}
+	}
+}
+@layer pupil {
+	.pupil {
+		position: absolute;
+		inline-size: 10px;
+		block-size: 15px;
+		background-color: var(--pupil-color);
+		border-radius: 50%;
+		transition: all 0.3s ease;
+		.left & {
+			inset-inline-end: 7px;
+			inset-block-end: 8px;
+			rotate: 5deg;
+			animation: pupil-left-movement 8s ease-in-out infinite;
+			animation-delay: 2s;
+		}
+		.right & {
+			inset-inline-start: 7px;
+			inset-block-end: 8px;
+			rotate: -5deg;
+			animation: pupil-right-movement 8s ease-in-out infinite;
+			animation-delay: 3.5s;
+		}
+	}
+}
+
+/* Asymmetric pupil movements - left eye favors outward motion */
+@keyframes pupil-left-movement {
+	0%, 100% { transform: translate(0, 0); }
+	20% { transform: translate(-1px, -0.3px); }  /* Outward movement - larger */
+	40% { transform: translate(0.2px, 0.2px); }  /* Inward movement - smaller */
+	60% { transform: translate(-0.5px, 0.4px); } /* Outward movement */
+	80% { transform: translate(0.1px, -0.2px); } /* Inward movement - smaller */
+}
+
+/* Asymmetric pupil movements - right eye favors outward motion */
+@keyframes pupil-right-movement {
+	0%, 100% { transform: translate(0, 0); }
+	20% { transform: translate(1px, -0.3px); }   /* Outward movement - larger */
+	40% { transform: translate(-0.2px, 0.2px); } /* Inward movement - smaller */
+	60% { transform: translate(0.5px, 0.4px); }  /* Outward movement */
+	80% { transform: translate(-0.1px, -0.2px); }/* Inward movement - smaller */
+}
+@layer light {
+	.light {
+		position: absolute;
+		inline-size: 6px;
+		block-size: 6px;
+		background-color: var(--light-color);
+		border-radius: 50%;
+		animation: light-twinkle 3s ease-in-out infinite;
+		.left & {
+			inset-inline-end: 9px;
+			inset-block-end: 14px;
+			animation-delay: 1s;
+		}
+		.right & {
+			inset-inline-start: 9px;
+			inset-block-end: 14px;
+			animation-delay: 1.8s;
+		}
+	}
+}
+
+/* Subtle light twinkle for liveliness */
+@keyframes light-twinkle {
+	0%, 100% { opacity: 1; transform: scale(1); }
+	50% { opacity: 0.7; transform: scale(0.9); }
+}
+hr.sep {
+	color: rgba(0, 0, 0, 0.5);
+	border-color: rgba(0, 0, 0, 0.25);
+}
+
+
+/* EMOTIONAL STATE ANIMATIONS */
+/* Emotional States */
+.emotional-state {
+	transition: all 0.3s ease;
+}
+
+/* Universal fallback for any emoji/symbol - uses CSS variable */
+.face[data-emotion]::after {
+	content: var(--emotion-symbol, "");
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(var(--emotion-scale, 1.5));
+	font-size: var(--emotion-size, 24px);
+	z-index: 15;
+	opacity: var(--emotion-opacity, 1);
+	animation: symbol-appear 0.3s ease-out;
+	text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	pointer-events: none;
+}
+
+/* Dim the face when showing symbol */
+.face[data-emotion] .eyes,
+.face[data-emotion] .mouth {
+	opacity: var(--face-opacity, 0.3);
+	transition: opacity 0.3s ease;
+}
+
+/* Symbol appearance animation */
+@keyframes symbol-appear {
+	0% { 
+		opacity: 0; 
+		transform: translate(-50%, -50%) scale(var(--emotion-scale, 1.5)) rotate(-5deg); 
+	}
+	50% { 
+		transform: translate(-50%, -50%) scale(calc(var(--emotion-scale, 1.5) * 1.1)) rotate(5deg); 
+	}
+	100% { 
+		opacity: var(--emotion-opacity, 1); 
+		transform: translate(-50%, -50%) scale(var(--emotion-scale, 1.5)) rotate(0deg); 
+	}
+}
+/* BSOD State for mind-blown/confused */
+.face[data-emotion="🤯"], .face[data-emotion="😵"], .face[data-emotion="🤔"], .face[data-emotion="😕"] {
+	background: linear-gradient(135deg, #0000ff 0%, #000080 100%);
+	animation: animation-🤯 0.5s infinite;
+	--face-opacity: 1; /* Override fallback dimming */
+}
+/* Hide fallback symbol for specific BSOD emotions */
+.face[data-emotion="🤯"]::after, .face[data-emotion="😵"]::after, .face[data-emotion="🤔"]::after, .face[data-emotion="😕"]::after {
+	display: none;
+}
+.face[data-emotion="🤯"]::after, .face[data-emotion="😵"]::after, .face[data-emotion="🤔"]::after, .face[data-emotion="😕"]::after {
+	background: repeating-linear-gradient(0deg,
+			rgba(255, 255, 255, 0.1),
+			rgba(255, 255, 255, 0.1) 1px,
+			transparent 1px,
+			transparent 2px);
+}
+.face[data-emotion="🤯"] .eyes, .face[data-emotion="😵"] .eyes, .face[data-emotion="🤔"] .eyes, .face[data-emotion="😕"] .eyes,
+.face[data-emotion="🤯"] .mouth, .face[data-emotion="😵"] .mouth, .face[data-emotion="🤔"] .mouth, .face[data-emotion="😕"] .mouth {
+	opacity: 1;
+}
+.face[data-emotion="🤯"]::before, .face[data-emotion="😵"]::before, .face[data-emotion="🤔"]::before, .face[data-emotion="😕"]::before {
+	content: "SYSTEM ERROR";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-family: monospace;
+	font-size: 8px;
+	font-weight: bold;
+	z-index: 10;
+}
+@keyframes animation-🤯 {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.8;
+	}
+}
+/* Anger State - Enhanced with intense animation */
+.face[data-emotion="😠"], .face[data-emotion="😡"], .face[data-emotion="🤬"], .face[data-emotion="😤"] {
+	filter: hue-rotate(120deg) saturate(2);
+	background-color: #440000;
+	box-shadow: 0px 0px 20px 5px rgba(255, 0, 0, 0.5);
+	animation: angry-screen-shake 0.1s infinite;
+	--face-opacity: 1; /* Override fallback dimming */
+}
+/* Hide fallback symbol for anger emotions */
+.face[data-emotion="😠"]::after, .face[data-emotion="😡"]::after, .face[data-emotion="🤬"]::after, .face[data-emotion="😤"]::after {
+	display: none;
+}
+.face[data-emotion="😠"] .eye, .face[data-emotion="😡"] .eye, .face[data-emotion="🤬"] .eye, .face[data-emotion="😤"] .eye {
+	animation: angry-eye-twitch 0.3s infinite;
+}
+.face[data-emotion="😠"] .eye.left, .face[data-emotion="😡"] .eye.left, .face[data-emotion="🤬"] .eye.left, .face[data-emotion="😤"] .eye.left {
+	rotate: -25deg;
+}
+.face[data-emotion="😠"] .eye.right, .face[data-emotion="😡"] .eye.right, .face[data-emotion="🤬"] .eye.right, .face[data-emotion="😤"] .eye.right {
+	rotate: 25deg;
+}
+.face[data-emotion="😠"] .mouth, .face[data-emotion="😡"] .mouth, .face[data-emotion="🤬"] .mouth, .face[data-emotion="😤"] .mouth {
+	animation: animation-😠 0.15s infinite;
+}
+
+@keyframes angry-screen-shake {
+	0%, 100% { transform: translateX(0); }
+	25% { transform: translateX(0.5px); }
+	75% { transform: translateX(-0.5px); }
+}
+
+@keyframes angry-eye-twitch {
+	0%, 100% { transform: scaleY(0.3) scaleX(1); }
+	50% { transform: scaleY(0.2) scaleX(1.1); }
+}
+
+@keyframes animation-😠 {
+	0%, 100% { transform: translateY(0) scale(1); }
+	50% { transform: translateY(-2px) scale(1.05); }
+}
+/* Eyeroll State - Enhanced with attitude */
+.face[data-emotion="🙄"] .left .iris {
+	animation: sassy-eyeroll-left 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.face[data-emotion="🙄"] .left .pupil {
+	animation: sassy-eyeroll-left 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.face[data-emotion="🙄"] .left .light {
+	animation: sassy-eyeroll-left 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.face[data-emotion="🙄"] .left .eye {
+	animation: eyeroll-squash 800ms ease-out;
+}
+.face[data-emotion="🙄"] .right .iris {
+	animation: sassy-eyeroll-right 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.face[data-emotion="🙄"] .right .pupil {
+	animation: sassy-eyeroll-right 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.face[data-emotion="🙄"] .right .light {
+	animation: sassy-eyeroll-right 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.face[data-emotion="🙄"] .right .eye {
+	animation: eyeroll-squash 800ms ease-out;
+}
+@keyframes sassy-eyeroll-left {
+	0% { transform: translate(0, 0); }
+	15% { transform: translate(1px, -2px); }
+	30% { transform: translate(3px, -6px); }
+	45% { transform: translate(4px, -8px); }
+	60% { transform: translate(3.5px, -12px); }
+	75% { transform: translate(1.5px, -14px); }
+	90% { transform: translate(0.5px, -12px); }
+	100% { transform: translate(0, 0); }
+}
+@keyframes sassy-eyeroll-right {
+	0% { transform: translate(0, 0); }
+	15% { transform: translate(2px, -2px); }
+	30% { transform: translate(6px, -6px); }
+	45% { transform: translate(8px, -8px); }
+	60% { transform: translate(7px, -12px); }
+	75% { transform: translate(3px, -14px); }
+	90% { transform: translate(0, -12px); }
+	100% { transform: translate(0, 0); }
+}
+
+@keyframes eyeroll-squash {
+	0%, 100% { transform: scaleY(1); }
+	50% { transform: scaleY(0.8) scaleX(1.1); }
+}
+/* Heart Eyes State */
+@keyframes animation-😍 {
+	 0% { transform: translate(-50%, -50%) scale(200%); }
+	50% { transform: translate(-50%, -50%) scale(400%); }
+}
+.face[data-emotion="😍"] .eyes, .face[data-emotion="🥰"] .eyes, .face[data-emotion="😘"] .eyes,
+.face[data-emotion="😍"] .eyes *, .face[data-emotion="🥰"] .eyes *, .face[data-emotion="😘"] .eyes * {
+	background-color: transparent !important;
+	box-shadow: none !important;
+}
+.face[data-emotion="😍"] .eye, .face[data-emotion="🥰"] .eye, .face[data-emotion="😘"] .eye {
+	overflow: visible;
+}
+.face[data-emotion="😍"] .eye::before, .face[data-emotion="🥰"] .eye::before, .face[data-emotion="😘"] .eye::before {
+	content: "♥";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(200%);
+	animation: animation-😍 500ms infinite;
+	color: #ff1493;
+	font-size: 20px;
+	z-index: 5;
+	text-shadow: #ff1493;
+}
+/* Dizzy State */
+.face[data-emotion="😵‍💫"] .eyes, .face[data-emotion="🥴"] .eyes {
+	animation: animation-😵‍💫 1s infinite;
+}
+.face[data-emotion="😵‍💫"] .mouth, .face[data-emotion="🥴"] .mouth {
+	animation: animation-😵‍💫-mouth 0.3s infinite;
+}
+@keyframes animation-😵‍💫 {
+	0% { transform: rotate(0deg) scale(1); }
+	25% { transform: rotate(90deg) scale(1.05); }
+	50% { transform: rotate(180deg) scale(0.95); }
+	75% { transform: rotate(270deg) scale(1.02); }
+	100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes animation-😵‍💫-mouth {
+	0%, 100% { transform: translateX(0) rotate(0deg); }
+	25% { transform: translateX(-1px) rotate(-2deg); }
+	50% { transform: translateX(-2px) rotate(1deg); }
+	75% { transform: translateX(1px) rotate(-1deg); }
+}
+/* Wink State - Enhanced with playful animation */
+.face[data-emotion="😉"] .eye.left {
+	animation: playful-wink 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.face[data-emotion="😉"] .eye.right {
+	animation: wink-companion-eye 0.6s ease-out;
+}
+
+.face[data-emotion="😉"] .mouth {
+	animation: cheeky-smirk 0.8s ease-in-out;
+}
+
+@keyframes playful-wink {
+	0% { transform: scaleY(1) rotate(-5deg); }
+	25% { transform: scaleY(0.8) rotate(-12deg) scaleX(1.1); }
+	50% { transform: scaleY(0.1) rotate(-10deg) scaleX(0.9); }
+	75% { transform: scaleY(0.3) rotate(-8deg) scaleX(1.05); }
+	100% { transform: scaleY(1) rotate(-5deg); }
+}
+
+@keyframes wink-companion-eye {
+	0%, 100% { transform: scale(1) rotate(5deg); }
+	30% { transform: scale(1.1) rotate(12deg); }
+	60% { transform: scale(0.95) rotate(8deg); }
+}
+
+@keyframes cheeky-smirk {
+	0%, 100% { transform: translateX(0) rotate(0deg); }
+	50% { transform: translateX(1px) rotate(1deg) scale(1.02); }
+}
+/* Sleepy State - Enhanced with drowsy motion */
+.face[data-emotion="😴"] .eye, .face[data-emotion="🥱"] .eye, .face[data-emotion="😪"] .eye {
+	animation: drowsy-eye-droop 3s ease-in-out infinite;
+}
+.face[data-emotion="😴"] .eyes, .face[data-emotion="🥱"] .eyes, .face[data-emotion="😪"] .eyes {
+	animation: sleepy-head-nod 4s ease-in-out infinite;
+}
+.face[data-emotion="😴"] .mouth, .face[data-emotion="🥱"] .mouth, .face[data-emotion="😪"] .mouth {
+	animation: sleepy-mouth-droop 3.5s ease-in-out infinite;
+}
+
+@keyframes drowsy-eye-droop {
+	0%, 100% { transform: scaleY(0.6); }
+	30% { transform: scaleY(0.4); }
+	60% { transform: scaleY(0.7); }
+	80% { transform: scaleY(0.3); }
+}
+
+@keyframes sleepy-head-nod {
+	0%, 100% { transform: translateY(0) rotate(0deg); }
+	25% { transform: translateY(1px) rotate(0.5deg); }
+	50% { transform: translateY(2px) rotate(-0.3deg); }
+	75% { transform: translateY(1px) rotate(0.2deg); }
+}
+
+@keyframes sleepy-mouth-droop {
+	0%, 100% { transform: translateY(0) scaleY(1); }
+	50% { transform: translateY(1px) scaleY(0.8); }
+}
+/* Surprised State - Enhanced with anticipation */
+.face[data-emotion="😲"] .eye, .face[data-emotion="😮"] .eye, .face[data-emotion="😯"] .eye, .face[data-emotion="🤩"] .eye {
+	animation: surprise-eye-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.face[data-emotion="😲"] .mouth, .face[data-emotion="😮"] .mouth, .face[data-emotion="😯"] .mouth, .face[data-emotion="🤩"] .mouth {
+	animation: animation-😲 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes surprise-eye-pop {
+	  0% { transform: scale(1); }
+	 20% { transform: scale(0.9); }
+	 60% { transform: scale(1.4); }
+	100% { transform: scale(1.3); }
+}
+
+@keyframes animation-😲 {
+	  0% { transform: scale(1); }
+	 15% { transform: scale(0.95); }
+	 50% { transform: scale(1.25); }
+	100% { transform: scale(1); }
+}
+
+/* Happy/Smile State - Enhanced with squash and stretch */
+.face[data-emotion="😊"] .eyes {
+	animation: animation-😊 1s ease-in-out;
+}
+
+.face[data-emotion="😊"] .eye {
+	animation: happy-eye-squash 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.face[data-emotion="😊"] .mouth {
+	animation: happy-mouth-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+@keyframes animation-😊 {
+	0%, 100% { transform: translateY(0) scale(1); }
+	50% { transform: translateY(-1px) scale(1.02); }
+}
+
+@keyframes happy-eye-squash {
+	0%, 100% { transform: scaleY(1); }
+	50% { transform: scaleY(0.8) scaleX(1.1); }
+}
+
+@keyframes happy-mouth-bounce {
+	0%, 100% { transform: scale(1) translateY(0); }
+	30% { transform: scale(1.05) translateY(-1px); }
+	60% { transform: scale(0.98) translateY(0.5px); }
+}
+
+/* NEW CHEEKY ANIMATIONS & IDLE STATES */
+
+/* Mischievous State - New cheeky emotion */
+.face[data-emotion="😏"] .eye {
+	animation: mischief-eyes 1.2s ease-in-out infinite;
+}
+.face[data-emotion="😏"] .eye.left {
+	transform: scaleY(0.7) rotate(-10deg);
+	animation-delay: 0.2s;
+}
+.face[data-emotion="😏"] .eye.right {
+	transform: scaleY(0.8) rotate(5deg);
+}
+.face[data-emotion="😏"] .mouth {
+	animation: smug-grin 1.5s ease-in-out infinite;
+}
+
+@keyframes mischief-eyes {
+	0%, 100% { transform: translateY(0); }
+	30% { transform: translateY(-0.5px) scaleX(1.05); }
+	60% { transform: translateY(0.3px) scaleX(0.95); }
+}
+
+@keyframes smug-grin {
+	0%, 100% { transform: translateX(0) rotate(0deg); }
+	40% { transform: translateX(0.5px) rotate(0.8deg) scale(1.02); }
+	80% { transform: translateX(-0.2px) rotate(-0.3deg); }
+}
+
+/* Thinking State - New contemplative emotion */
+.face[data-emotion="🤨"] .eye.left {
+	animation: skeptical-raise 2s ease-in-out infinite;
+}
+.face[data-emotion="🤨"] .eye.right {
+	animation: thinking-squint 1.8s ease-in-out infinite;
+}
+.face[data-emotion="🤨"] .mouth {
+	animation: pondering-purse 2.2s ease-in-out infinite;
+}
+
+@keyframes skeptical-raise {
+	0%, 100% { transform: translateY(0) rotate(-5deg); }
+	50% { transform: translateY(-2px) rotate(-8deg) scaleY(1.1); }
+}
+
+@keyframes thinking-squint {
+	0%, 100% { transform: scaleY(1) rotate(5deg); }
+	50% { transform: scaleY(0.6) rotate(12deg) scaleX(0.9); }
+}
+
+@keyframes pondering-purse {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(0.5px) scaleX(0.95); }
+}
+
+/* Idle Animation - When no emotion is active */
+.screen:not([data-emotion]) {
+	animation: idle-contentment 8s ease-in-out infinite;
+}
+
+.screen:not([data-emotion]) .eye {
+	animation: idle-micro-blinks 5s ease-in-out infinite;
+}
+
+.screen:not([data-emotion]) .mouth {
+	animation: idle-slight-smile 6s ease-in-out infinite;
+}
+
+@keyframes idle-contentment {
+	0%, 100% { transform: scale(1) translateY(0); }
+	25% { transform: scale(1.002) translateY(-0.2px); }
+	50% { transform: scale(1.001) translateY(0.1px); }
+	75% { transform: scale(1.003) translateY(-0.1px); }
+}
+
+@keyframes idle-micro-blinks {
+	0%, 100% { transform: scaleY(1); }
+	15% { transform: scaleY(0.95); }
+	30% { transform: scaleY(1.02); }
+	60% { transform: scaleY(0.98); }
+	85% { transform: scaleY(1.01); }
+}
+
+@keyframes idle-slight-smile {
+	0%, 100% { transform: translateY(0) scale(1); }
+	50% { transform: translateY(-0.3px) scale(1.005); }
+}
+
+/* Cheeky Peek Animation - Can be triggered manually */
+.screen.peek-left .eye.left {
+	animation: peek-left-eye 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.screen.peek-left .eye.right {
+	animation: peek-follow-eye 0.8s ease-out 0.1s;
+}
+
+@keyframes peek-left-eye {
+	0% { transform: rotate(-5deg); }
+	30% { transform: rotate(-20deg) translateX(-2px); }
+	60% { transform: rotate(-25deg) translateX(-3px) scaleX(1.1); }
+	100% { transform: rotate(-5deg); }
+}
+
+@keyframes peek-follow-eye {
+	0%, 100% { transform: rotate(5deg); }
+	50% { transform: rotate(5deg) translateX(-1px); }
+}
+
+/* Bounce Attention - Friendly attention-grabbing animation */
+.screen.bounce-attention {
+	animation: friendly-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 3;
+}
+
+.screen.bounce-attention .eyes {
+	animation: bounce-eyes 0.6s ease-out 3;
+}
+
+@keyframes friendly-bounce {
+	0%, 100% { transform: scale(1) translateY(0); }
+	50% { transform: scale(1.05) translateY(-3px); }
+}
+
+@keyframes bounce-eyes {
+	0%, 100% { transform: scale(1); }
+	30% { transform: scale(1.1) translateY(-1px); }
+	70% { transform: scale(0.95) translateY(1px); }
+}
+
+/* Sassy State - New cheeky emotion */
+.face[data-emotion="😌"] .eye.left {
+	animation: sassy-wink 1s ease-in-out infinite;
+}
+.face[data-emotion="😌"] .eye.right {
+	animation: confident-gaze 1.2s ease-in-out infinite;
+}
+.face[data-emotion="😌"] .mouth {
+	animation: smirk-slide 1.5s ease-in-out infinite;
+}
+
+@keyframes sassy-wink {
+	0%, 80%, 100% { transform: scaleY(1) rotate(-5deg); }
+	10%, 70% { transform: scaleY(0.1) rotate(-10deg); }
+}
+
+@keyframes confident-gaze {
+	0%, 100% { transform: rotate(5deg) scale(1); }
+	50% { transform: rotate(12deg) scale(1.05); }
+}
+
+@keyframes smirk-slide {
+	0%, 100% { transform: translateX(0) rotate(0deg); }
+	50% { transform: translateX(1px) rotate(1.5deg) scale(1.03); }
+}
+
+/* Curious State - New inquisitive emotion */
+.face[data-emotion="🤔"] .eye {
+	animation: curious-tilt 2s ease-in-out infinite;
+}
+.face[data-emotion="🤔"] .eye.left {
+	animation-delay: 0.3s;
+}
+.face[data-emotion="🤔"] .mouth {
+	animation: thoughtful-purse 2.5s ease-in-out infinite;
+}
+
+@keyframes curious-tilt {
+	0%, 100% { transform: rotate(-5deg) translateY(0); }
+	25% { transform: rotate(-8deg) translateY(-1px) scale(1.05); }
+	50% { transform: rotate(-12deg) translateY(0.5px) scale(0.98); }
+	75% { transform: rotate(-7deg) translateY(-0.5px) scale(1.02); }
+}
+
+@keyframes thoughtful-purse {
+	0%, 100% { transform: translateY(0) scaleX(1); }
+	50% { transform: translateY(0.5px) scaleX(0.95); }
+}
+
+/* Excited Vibration - For high energy moments */
+.screen.excited-vibration {
+	animation: excitement-shake 0.1s infinite;
+}
+
+.screen.excited-vibration .eyes {
+	animation: excited-sparkle 0.2s infinite;
+}
+
+@keyframes excitement-shake {
+	0%, 100% { transform: translateX(0) translateY(0); }
+	25% { transform: translateX(0.5px) translateY(-0.3px); }
+	75% { transform: translateX(-0.3px) translateY(0.5px); }
+}
+
+@keyframes excited-sparkle {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.08) rotate(1deg); }
+}
+
+/* ============================================================================
+   ADDITIONAL EMOJI PERSONALITIES
+   ============================================================================ */
+
+/* Laughing/Joy - 😂🤣😆 */
+.face[data-emotion="😂"], .face[data-emotion="🤣"], .face[data-emotion="😆"] {
+	animation: laugh-shake 0.5s ease-in-out infinite;
+	--face-opacity: 1;
+}
+.face[data-emotion="😂"]::after, .face[data-emotion="🤣"]::after, .face[data-emotion="😆"]::after {
+	display: none;
+}
+.face[data-emotion="😂"] .eye, .face[data-emotion="🤣"] .eye, .face[data-emotion="😆"] .eye {
+	animation: laugh-squint 0.5s ease-in-out infinite;
+}
+.face[data-emotion="😂"] .mouth, .face[data-emotion="🤣"] .mouth, .face[data-emotion="😆"] .mouth {
+	animation: laugh-mouth 0.3s ease-in-out infinite;
+}
+
+@keyframes laugh-shake {
+	0%, 100% { transform: translateY(0) rotate(0deg); }
+	25% { transform: translateY(-1px) rotate(0.5deg); }
+	75% { transform: translateY(1px) rotate(-0.5deg); }
+}
+
+@keyframes laugh-squint {
+	0%, 100% { transform: scaleY(0.1) scaleX(1.1); }
+	50% { transform: scaleY(0.05) scaleX(1.2); }
+}
+
+@keyframes laugh-mouth {
+	0%, 100% { transform: scale(1.2) translateY(-1px); }
+	50% { transform: scale(1.3) translateY(-2px); }
+}
+
+/* Crying - 😭😢😿 */
+.face[data-emotion="😭"], .face[data-emotion="😢"], .face[data-emotion="😿"] {
+	animation: cry-tremble 1s ease-in-out infinite;
+	--face-opacity: 1;
+}
+.face[data-emotion="😭"]::after, .face[data-emotion="😢"]::after, .face[data-emotion="😿"]::after {
+	display: none;
+}
+.face[data-emotion="😭"] .eye, .face[data-emotion="😢"] .eye, .face[data-emotion="😿"] .eye {
+	animation: cry-droop 2s ease-in-out infinite;
+}
+.face[data-emotion="😭"] .mouth, .face[data-emotion="😢"] .mouth, .face[data-emotion="😿"] .mouth {
+	animation: cry-frown 1.5s ease-in-out infinite;
+}
+
+@keyframes cry-tremble {
+	0%, 100% { transform: translateX(0); }
+	25% { transform: translateX(-0.5px) translateY(0.3px); }
+	75% { transform: translateX(0.5px) translateY(-0.2px); }
+}
+
+@keyframes cry-droop {
+	0%, 100% { transform: scaleY(0.8) translateY(1px); }
+	50% { transform: scaleY(0.6) translateY(2px); }
+}
+
+@keyframes cry-frown {
+	0%, 100% { transform: scaleY(0.8) translateY(2px) rotate(0deg); }
+	50% { transform: scaleY(0.7) translateY(3px) rotate(0.5deg); }
+}
+
+/* Thinking/Pondering - 🤔💭🧐 */
+.face[data-emotion="💭"], .face[data-emotion="🧐"] {
+	animation: deep-thought 3s ease-in-out infinite;
+	--face-opacity: 1;
+}
+.face[data-emotion="💭"]::after, .face[data-emotion="🧐"]::after {
+	display: none;
+}
+.face[data-emotion="💭"] .eye, .face[data-emotion="🧐"] .eye {
+	animation: contemplative-gaze 2.5s ease-in-out infinite;
+}
+.face[data-emotion="💭"] .mouth, .face[data-emotion="🧐"] .mouth {
+	animation: thoughtful-hum 3s ease-in-out infinite;
+}
+
+@keyframes deep-thought {
+	0%, 100% { transform: translateY(0) rotate(0deg); }
+	33% { transform: translateY(-0.5px) rotate(-0.3deg); }
+	66% { transform: translateY(0.3px) rotate(0.2deg); }
+}
+
+@keyframes contemplative-gaze {
+	0%, 100% { transform: translateX(0) scaleY(0.9); }
+	50% { transform: translateX(-1px) scaleY(0.8); }
+}
+
+@keyframes thoughtful-hum {
+	0%, 100% { transform: scaleX(0.9) translateY(0); }
+	50% { transform: scaleX(0.85) translateY(0.5px); }
+}
+
+/* Cool/Sunglasses - 😎🕶️ */
+.face[data-emotion="😎"] {
+	animation: cool-sway 2s ease-in-out infinite;
+	--face-opacity: 1;
+}
+.face[data-emotion="😎"]::after {
+	display: none;
+}
+.face[data-emotion="😎"] .eye {
+	background: linear-gradient(45deg, #333, #111);
+	border-radius: 20% 80% 80% 20%;
+	animation: cool-shades 2s ease-in-out infinite;
+}
+.face[data-emotion="😎"] .mouth {
+	animation: cool-smirk 2s ease-in-out infinite;
+}
+
+@keyframes cool-sway {
+	0%, 100% { transform: rotate(0deg); }
+	50% { transform: rotate(1deg); }
+}
+
+@keyframes cool-shades {
+	0%, 100% { transform: scaleY(0.6) scaleX(1.2); }
+	50% { transform: scaleY(0.5) scaleX(1.3); }
+}
+
+@keyframes cool-smirk {
+	0%, 100% { transform: translateX(0) rotate(0deg); }
+	50% { transform: translateX(0.5px) rotate(0.5deg) scaleX(1.1); }
+}
+
+/* Party/Celebration - 🎉🥳🎊 */
+.face[data-emotion="🎉"], .face[data-emotion="🥳"], .face[data-emotion="🎊"] {
+	animation: party-bounce 0.6s ease-in-out infinite;
+	--face-opacity: 1;
+}
+.face[data-emotion="🎉"]::after, .face[data-emotion="🥳"]::after, .face[data-emotion="🎊"]::after {
+	display: none;
+}
+.face[data-emotion="🎉"] .eye, .face[data-emotion="🥳"] .eye, .face[data-emotion="🎊"] .eye {
+	animation: party-sparkle 0.4s ease-in-out infinite;
+}
+.face[data-emotion="🎉"] .mouth, .face[data-emotion="🥳"] .mouth, .face[data-emotion="🎊"] .mouth {
+	animation: party-cheer 0.5s ease-in-out infinite;
+}
+
+@keyframes party-bounce {
+	0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+	25% { transform: translateY(-2px) scale(1.05) rotate(1deg); }
+	75% { transform: translateY(1px) scale(0.98) rotate(-0.5deg); }
+}
+
+@keyframes party-sparkle {
+	0%, 100% { transform: scale(1) rotate(0deg); }
+	50% { transform: scale(1.15) rotate(5deg); }
+}
+
+@keyframes party-cheer {
+	0%, 100% { transform: scale(1.1) translateY(-1px); }
+	50% { transform: scale(1.2) translateY(-2px) rotate(1deg); }
+}
+
+/* Sick/Nauseous - 🤢🤮😷 */
+.face[data-emotion="🤢"], .face[data-emotion="🤮"], .face[data-emotion="😷"] {
+	animation: sick-wobble 1.5s ease-in-out infinite;
+	filter: hue-rotate(60deg) saturate(0.7);
+	--face-opacity: 1;
+}
+.face[data-emotion="🤢"]::after, .face[data-emotion="🤮"]::after, .face[data-emotion="😷"]::after {
+	display: none;
+}
+.face[data-emotion="🤢"] .eye, .face[data-emotion="🤮"] .eye, .face[data-emotion="😷"] .eye {
+	animation: sick-droop 2s ease-in-out infinite;
+}
+.face[data-emotion="🤢"] .mouth, .face[data-emotion="🤮"] .mouth, .face[data-emotion="😷"] .mouth {
+	animation: sick-grimace 1s ease-in-out infinite;
+}
+
+@keyframes sick-wobble {
+	0%, 100% { transform: translateX(0) rotate(0deg); }
+	25% { transform: translateX(-1px) rotate(-1deg); }
+	75% { transform: translateX(1px) rotate(1deg); }
+}
+
+@keyframes sick-droop {
+	0%, 100% { transform: scaleY(0.7) translateY(1px); }
+	50% { transform: scaleY(0.6) translateY(2px); }
+}
+
+@keyframes sick-grimace {
+	0%, 100% { transform: scaleY(0.6) translateY(1px) scaleX(0.9); }
+	50% { transform: scaleY(0.5) translateY(2px) scaleX(0.8); }
+}
+
+/* 7. SCARED/FEARFUL EMOJIS */
+.face[data-emotion="😰"], .face[data-emotion="😨"], .face[data-emotion="😱"], .face[data-emotion="😳"], .face[data-emotion="🫣"] {
+	animation: fearful-recoil 0.8s ease-out;
+	filter: saturate(0.7) contrast(1.2);
+}
+
+.face[data-emotion="😰"]::after, .face[data-emotion="😨"]::after, .face[data-emotion="😱"]::after, .face[data-emotion="😳"]::after, .face[data-emotion="🫣"]::after {
+	content: var(--emotion-symbol, "😰");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: fearful-symbol 1.2s ease-out;
+}
+
+.face[data-emotion="😰"] .eye, .face[data-emotion="😨"] .eye, .face[data-emotion="😱"] .eye, .face[data-emotion="😳"] .eye, .face[data-emotion="🫣"] .eye {
+	transform: scale(1.3) translateY(-2px);
+	animation: scared-wide-eyes 0.6s ease-out;
+}
+
+.face[data-emotion="😰"] .mouth, .face[data-emotion="😨"] .mouth, .face[data-emotion="😱"] .mouth, .face[data-emotion="😳"] .mouth, .face[data-emotion="🫣"] .mouth {
+	transform: scale(0.7) translateY(3px);
+	animation: fearful-gasp 0.5s ease-out;
+}
+
+@keyframes fearful-recoil {
+	0% { transform: scale(1) translateY(0); }
+	30% { transform: scale(0.95) translateY(-3px) translateX(-2px); }
+	60% { transform: scale(1.02) translateY(1px) translateX(1px); }
+	100% { transform: scale(1) translateY(0); }
+}
+
+@keyframes scared-wide-eyes {
+	0% { transform: scale(1) translateY(0); }
+	50% { transform: scale(1.4) translateY(-3px); }
+	100% { transform: scale(1.3) translateY(-2px); }
+}
+
+@keyframes fearful-gasp {
+	0% { transform: scale(1) translateY(0); }
+	40% { transform: scale(0.5) translateY(2px); }
+	100% { transform: scale(0.7) translateY(3px); }
+}
+
+@keyframes fearful-symbol {
+	0% { opacity: 0; transform: scale(0) rotate(-10deg); }
+	30% { opacity: 1; transform: scale(1.2) rotate(5deg); }
+	100% { opacity: 0.8; transform: scale(1) rotate(0deg); }
+}
+
+/* 8. ROMANTIC/LOVE EMOJIS */
+.face[data-emotion="❤️"], .face[data-emotion="💕"], .face[data-emotion="💖"], .face[data-emotion="😻"], .face[data-emotion="🥺"] {
+	animation: loving-pulse 2s ease-in-out infinite;
+	filter: hue-rotate(15deg) saturate(1.1);
+}
+
+.face[data-emotion="❤️"]::after, .face[data-emotion="💕"]::after, .face[data-emotion="💖"]::after, .face[data-emotion="😻"]::after, .face[data-emotion="🥺"]::after {
+	content: var(--emotion-symbol, "❤️");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: love-float 2.5s ease-in-out infinite;
+}
+
+.face[data-emotion="❤️"] .eye, .face[data-emotion="💕"] .eye, .face[data-emotion="💖"] .eye, .face[data-emotion="😻"] .eye, .face[data-emotion="🥺"] .eye {
+	animation: love-sparkle 1.8s ease-in-out infinite;
+}
+
+.face[data-emotion="❤️"] .mouth, .face[data-emotion="💕"] .mouth, .face[data-emotion="💖"] .mouth, .face[data-emotion="😻"] .mouth, .face[data-emotion="🥺"] .mouth {
+	transform: scale(0.8) translateY(-1px);
+	animation: loving-smile 2s ease-in-out infinite;
+}
+
+@keyframes loving-pulse {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.03); }
+}
+
+@keyframes love-sparkle {
+	0%, 100% { filter: brightness(1) saturate(1); }
+	50% { filter: brightness(1.2) saturate(1.3); }
+}
+
+@keyframes loving-smile {
+	0%, 100% { transform: scale(0.8) translateY(-1px); }
+	50% { transform: scale(0.85) translateY(-2px); }
+}
+
+@keyframes love-float {
+	0%, 100% { transform: translateY(0) scale(1); }
+	50% { transform: translateY(-3px) scale(1.1); }
+}
+
+/* 9. CONFUSED EMOJIS */
+.face[data-emotion="😵‍💫"], .face[data-emotion="🤯"], .face[data-emotion="😖"], .face[data-emotion="🙃"], .face[data-emotion="🤪"] {
+	animation: confused-wobble 1.5s ease-in-out infinite;
+}
+
+.face[data-emotion="😵‍💫"]::after, .face[data-emotion="🤯"]::after, .face[data-emotion="😖"]::after, .face[data-emotion="🙃"]::after, .face[data-emotion="🤪"]::after {
+	content: var(--emotion-symbol, "😵‍💫");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: confusion-spin 2s linear infinite;
+}
+
+.face[data-emotion="😵‍💫"] .eye, .face[data-emotion="🤯"] .eye, .face[data-emotion="😖"] .eye, .face[data-emotion="🙃"] .eye, .face[data-emotion="🤪"] .eye {
+	animation: confused-cross-eyes 1.2s ease-in-out infinite;
+}
+
+.face[data-emotion="😵‍💫"] .mouth, .face[data-emotion="🤯"] .mouth, .face[data-emotion="😖"] .mouth, .face[data-emotion="🙃"] .mouth, .face[data-emotion="🤪"] .mouth {
+	animation: confused-mouth 1.5s ease-in-out infinite;
+}
+
+@keyframes confused-wobble {
+	0%, 100% { transform: rotate(0deg); }
+	25% { transform: rotate(-2deg) translateX(-1px); }
+	75% { transform: rotate(2deg) translateX(1px); }
+}
+
+@keyframes confused-cross-eyes {
+	0%, 100% { transform: translateX(0); }
+	25% { transform: translateX(-2px); }
+	75% { transform: translateX(2px); }
+}
+
+@keyframes confused-mouth {
+	0%, 100% { transform: scaleX(1); }
+	50% { transform: scaleX(0.7) translateY(1px); }
+}
+
+@keyframes confusion-spin {
+	0% { transform: rotate(0deg) scale(1); }
+	100% { transform: rotate(360deg) scale(1); }
+}
+
+/* 10. SLEEPY/TIRED EMOJIS */
+.face[data-emotion="😪"], .face[data-emotion="🥱"], .face[data-emotion="😴"], .face[data-emotion="💤"] {
+	animation: sleepy-sway 3s ease-in-out infinite;
+	filter: saturate(0.8) brightness(0.9);
+}
+
+.face[data-emotion="😪"]::after, .face[data-emotion="🥱"]::after, .face[data-emotion="😴"]::after, .face[data-emotion="💤"]::after {
+	content: var(--emotion-symbol, "😪");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: sleepy-z 4s ease-in-out infinite;
+}
+
+.face[data-emotion="😪"] .eye, .face[data-emotion="🥱"] .eye, .face[data-emotion="😴"] .eye, .face[data-emotion="💤"] .eye {
+	transform: scaleY(0.3);
+	animation: drowsy-blink 2.5s ease-in-out infinite;
+}
+
+.face[data-emotion="😪"] .mouth, .face[data-emotion="🥱"] .mouth, .face[data-emotion="😴"] .mouth, .face[data-emotion="💤"] .mouth {
+	transform: scale(0.6) translateY(2px);
+	animation: sleepy-yawn 3s ease-in-out infinite;
+}
+
+@keyframes sleepy-sway {
+	0%, 100% { transform: rotate(0deg) translateY(0); }
+	33% { transform: rotate(-1deg) translateY(1px); }
+	66% { transform: rotate(1deg) translateY(-1px); }
+}
+
+@keyframes drowsy-blink {
+	0%, 80%, 100% { transform: scaleY(0.3); }
+	10%, 70% { transform: scaleY(0.1); }
+}
+
+@keyframes sleepy-yawn {
+	0%, 100% { transform: scale(0.6) translateY(2px); }
+	50% { transform: scale(0.8) translateY(1px); }
+}
+
+@keyframes sleepy-z {
+	0%, 100% { opacity: 0.3; transform: translateY(0) rotate(0deg); }
+	50% { opacity: 0.8; transform: translateY(-5px) rotate(5deg); }
+}
+
+/* 11. TECHNICAL/GEEKY EMOJIS */
+.face[data-emotion="🤓"], .face[data-emotion="💻"], .face[data-emotion="⚙️"], .face[data-emotion="🔧"], .face[data-emotion="🧠"] {
+	animation: tech-processing 1.8s ease-in-out infinite;
+	filter: hue-rotate(-30deg) contrast(1.1);
+}
+
+.face[data-emotion="🤓"]::after, .face[data-emotion="💻"]::after, .face[data-emotion="⚙️"]::after, .face[data-emotion="🔧"]::after, .face[data-emotion="🧠"]::after {
+	content: var(--emotion-symbol, "🤓");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: tech-blink 1.5s ease-in-out infinite;
+}
+
+.face[data-emotion="🤓"] .eye, .face[data-emotion="💻"] .eye, .face[data-emotion="⚙️"] .eye, .face[data-emotion="🔧"] .eye, .face[data-emotion="🧠"] .eye {
+	animation: tech-scan 2s linear infinite;
+	filter: brightness(1.2);
+}
+
+.face[data-emotion="🤓"] .mouth, .face[data-emotion="💻"] .mouth, .face[data-emotion="⚙️"] .mouth, .face[data-emotion="🔧"] .mouth, .face[data-emotion="🧠"] .mouth {
+	transform: scale(0.7);
+	animation: tech-calculate 1.2s ease-in-out infinite;
+}
+
+@keyframes tech-processing {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.02) translateY(-1px); }
+}
+
+@keyframes tech-scan {
+	0%, 100% { transform: translateX(0); }
+	25% { transform: translateX(-1px); }
+	75% { transform: translateX(1px); }
+}
+
+@keyframes tech-calculate {
+	0%, 100% { transform: scale(0.7); }
+	50% { transform: scale(0.75) translateY(-1px); }
+}
+
+@keyframes tech-blink {
+	0%, 90%, 100% { opacity: 0.8; }
+	95% { opacity: 0.3; }
+}
+
+/* 12. WEATHER/NATURE EMOJIS */
+.face[data-emotion="🌞"], .face[data-emotion="⛈️"], .face[data-emotion="🌨️"], .face[data-emotion="🌈"], .face[data-emotion="🔥"] {
+	animation: weather-flow 2.5s ease-in-out infinite;
+	filter: saturate(1.3) brightness(1.1);
+}
+
+.face[data-emotion="🌞"]::after, .face[data-emotion="⛈️"]::after, .face[data-emotion="🌨️"]::after, .face[data-emotion="🌈"]::after, .face[data-emotion="🔥"]::after {
+	content: var(--emotion-symbol, "🌞");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: weather-drift 3s ease-in-out infinite;
+}
+
+.face[data-emotion="🌞"] .eye, .face[data-emotion="⛈️"] .eye, .face[data-emotion="🌨️"] .eye, .face[data-emotion="🌈"] .eye, .face[data-emotion="🔥"] .eye {
+	animation: weather-shimmer 2s ease-in-out infinite;
+}
+
+.face[data-emotion="🌞"] .mouth, .face[data-emotion="⛈️"] .mouth, .face[data-emotion="🌨️"] .mouth, .face[data-emotion="🌈"] .mouth, .face[data-emotion="🔥"] .mouth {
+	animation: weather-expression 2.2s ease-in-out infinite;
+}
+
+@keyframes weather-flow {
+	0%, 100% { transform: scale(1) translateY(0); }
+	50% { transform: scale(1.01) translateY(-2px); }
+}
+
+@keyframes weather-shimmer {
+	0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+	50% { filter: brightness(1.3) hue-rotate(10deg); }
+}
+
+@keyframes weather-expression {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.05) translateY(-1px); }
+}
+
+@keyframes weather-drift {
+	0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+	33% { transform: translateY(-2px) translateX(1px) rotate(2deg); }
+	66% { transform: translateY(1px) translateX(-1px) rotate(-1deg); }
+}
+
+/* 13. FOOD EMOJIS */
+.face[data-emotion="🍕"], .face[data-emotion="🍔"], .face[data-emotion="🎂"], .face[data-emotion="🍎"], .face[data-emotion="🥗"] {
+	animation: hungry-bounce 1.5s ease-in-out infinite;
+	filter: saturate(1.4) contrast(1.1);
+}
+
+.face[data-emotion="🍕"]::after, .face[data-emotion="🍔"]::after, .face[data-emotion="🎂"]::after, .face[data-emotion="🍎"]::after, .face[data-emotion="🥗"]::after {
+	content: var(--emotion-symbol, "🍕");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: food-crave 2s ease-in-out infinite;
+}
+
+.face[data-emotion="🍕"] .eye, .face[data-emotion="🍔"] .eye, .face[data-emotion="🎂"] .eye, .face[data-emotion="🍎"] .eye, .face[data-emotion="🥗"] .eye {
+	animation: hungry-eyes 1.8s ease-in-out infinite;
+	filter: brightness(1.2);
+}
+
+.face[data-emotion="🍕"] .mouth, .face[data-emotion="🍔"] .mouth, .face[data-emotion="🎂"] .mouth, .face[data-emotion="🍎"] .mouth, .face[data-emotion="🥗"] .mouth {
+	transform: scale(1.1) translateY(-1px);
+	animation: food-anticipation 1.5s ease-in-out infinite;
+}
+
+@keyframes hungry-bounce {
+	0%, 100% { transform: scale(1) translateY(0); }
+	50% { transform: scale(1.03) translateY(-2px); }
+}
+
+@keyframes hungry-eyes {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.1) translateY(-1px); }
+}
+
+@keyframes food-anticipation {
+	0%, 100% { transform: scale(1.1) translateY(-1px); }
+	50% { transform: scale(1.15) translateY(-2px); }
+}
+
+@keyframes food-crave {
+	0%, 100% { transform: scale(1) rotate(0deg); }
+	50% { transform: scale(1.1) rotate(3deg); }
+}
+
+/* 14. MONEY/SUCCESS EMOJIS */
+.face[data-emotion="💰"], .face[data-emotion="💎"], .face[data-emotion="🏆"], .face[data-emotion="⭐"], .face[data-emotion="🎯"] {
+	animation: success-gleam 2s ease-in-out infinite;
+	filter: saturate(1.2) contrast(1.3) brightness(1.1);
+}
+
+.face[data-emotion="💰"]::after, .face[data-emotion="💎"]::after, .face[data-emotion="🏆"]::after, .face[data-emotion="⭐"]::after, .face[data-emotion="🎯"]::after {
+	content: var(--emotion-symbol, "💰");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: success-sparkle 2.5s ease-in-out infinite;
+}
+
+.face[data-emotion="💰"] .eye, .face[data-emotion="💎"] .eye, .face[data-emotion="🏆"] .eye, .face[data-emotion="⭐"] .eye, .face[data-emotion="🎯"] .eye {
+	animation: money-shine 1.8s ease-in-out infinite;
+	filter: brightness(1.3);
+}
+
+.face[data-emotion="💰"] .mouth, .face[data-emotion="💎"] .mouth, .face[data-emotion="🏆"] .mouth, .face[data-emotion="⭐"] .mouth, .face[data-emotion="🎯"] .mouth {
+	transform: scale(1.2) translateY(-2px);
+	animation: rich-smile 2s ease-in-out infinite;
+}
+
+@keyframes success-gleam {
+	0%, 100% { transform: scale(1); filter: saturate(1.2) contrast(1.3) brightness(1.1); }
+	50% { transform: scale(1.02); filter: saturate(1.4) contrast(1.4) brightness(1.2); }
+}
+
+@keyframes money-shine {
+	0%, 100% { filter: brightness(1.3) saturate(1.2); }
+	50% { filter: brightness(1.5) saturate(1.4); }
+}
+
+@keyframes rich-smile {
+	0%, 100% { transform: scale(1.2) translateY(-2px); }
+	50% { transform: scale(1.25) translateY(-3px); }
+}
+
+@keyframes success-sparkle {
+	0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+	25% { transform: scale(1.1) rotate(90deg); opacity: 1; }
+	50% { transform: scale(1.2) rotate(180deg); opacity: 0.9; }
+	75% { transform: scale(1.1) rotate(270deg); opacity: 1; }
+}
+
+/* 15. SPACE/COSMIC EMOJIS */
+.face[data-emotion="🚀"], .face[data-emotion="🛸"], .face[data-emotion="🌌"], .face[data-emotion="👽"], .face[data-emotion="🌍"] {
+	animation: cosmic-float 3s ease-in-out infinite;
+	filter: hue-rotate(30deg) saturate(1.2) brightness(0.9);
+}
+
+.face[data-emotion="🚀"]::after, .face[data-emotion="🛸"]::after, .face[data-emotion="🌌"]::after, .face[data-emotion="👽"]::after, .face[data-emotion="🌍"]::after {
+	content: var(--emotion-symbol, "🚀");
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	font-size: 24px;
+	z-index: 5;
+	animation: space-drift 4s linear infinite;
+}
+
+.face[data-emotion="🚀"] .eye, .face[data-emotion="🛸"] .eye, .face[data-emotion="🌌"] .eye, .face[data-emotion="👽"] .eye, .face[data-emotion="🌍"] .eye {
+	animation: cosmic-wonder 2.5s ease-in-out infinite;
+	filter: brightness(1.1) hue-rotate(20deg);
+}
+
+.face[data-emotion="🚀"] .mouth, .face[data-emotion="🛸"] .mouth, .face[data-emotion="🌌"] .mouth, .face[data-emotion="👽"] .mouth, .face[data-emotion="🌍"] .mouth {
+	animation: space-awe 2.8s ease-in-out infinite;
+}
+
+@keyframes cosmic-float {
+	0%, 100% { transform: translateY(0) scale(1); }
+	33% { transform: translateY(-3px) scale(1.01); }
+	66% { transform: translateY(2px) scale(0.99); }
+}
+
+@keyframes cosmic-wonder {
+	0%, 100% { transform: scale(1) translateY(0); }
+	50% { transform: scale(1.05) translateY(-1px); }
+}
+
+@keyframes space-awe {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(0.95) translateY(1px); }
+}
+
+@keyframes space-drift {
+	0% { transform: translateX(0) translateY(0) rotate(0deg); }
+	25% { transform: translateX(2px) translateY(-2px) rotate(90deg); }
+	50% { transform: translateX(0) translateY(-4px) rotate(180deg); }
+	75% { transform: translateX(-2px) translateY(-2px) rotate(270deg); }
+	100% { transform: translateX(0) translateY(0) rotate(360deg); }
+}
